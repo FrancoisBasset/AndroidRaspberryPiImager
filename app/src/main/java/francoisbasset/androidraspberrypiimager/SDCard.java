@@ -1,35 +1,28 @@
 package francoisbasset.androidraspberrypiimager;
 
-import android.net.Uri;
+import android.content.Context;
 import android.webkit.MimeTypeMap;
 
 import androidx.documentfile.provider.DocumentFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class SDCard {
-    Uri treeUri;
-    DocumentFile pickedDir;
+    private DocumentFile pickedDir;
+    private Context context;
 
-    public SDCard(Uri treeUri, DocumentFile pickedDir) {
-        this.treeUri = treeUri;
+    public SDCard(DocumentFile pickedDir, Context context) {
         this.pickedDir = pickedDir;
-    }
-
-    public void clean() {
-        for (DocumentFile documentFile : pickedDir.listFiles()) {
-            if (documentFile.getName() != null) {
-                documentFile.delete();
-            }
-        }
+        this.context = context;
     }
 
     public void extractZip(String zipPath) {
-        clean();
-
         try {
             ZipFile zipFile = new ZipFile(zipPath);
 
@@ -39,65 +32,51 @@ public class SDCard {
                 String path = entries.nextElement().getName();
                 ZipEntry zipEntry = zipFile.getEntry(path);
 
-                writeZipEntry(zipEntry);
+                writeZipEntry(zipEntry.getName(), zipFile.getInputStream(zipEntry));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeZipEntry(ZipEntry zipEntry) {
-        String[] names = zipEntry.getName().split("/");
+    public void writeZipEntry(String fileName, InputStream inputStream) {
+        String[] names = fileName.split("/");
 
         DocumentFile doc = pickedDir, previous;
-        DocumentFile fileToCreate;
+        DocumentFile fileToCreate = null;
 
         for (int i = 0; i < names.length; i++) {
             previous = doc;
             doc = doc.findFile(names[i]);
 
-            if (i < names.length - 1 || zipEntry.getName().endsWith("/")) {
+            if (i < names.length - 1 || fileName.endsWith("/")) {
                 if (doc == null) {
                     doc = previous.createDirectory(names[i]);
                 }
             } else {
                 if (doc == null) {
-                    fileToCreate = previous.createFile(MimeTypeMap.getFileExtensionFromUrl(zipEntry.getName()), names[i]);
+                    fileToCreate = previous.createFile(MimeTypeMap.getFileExtensionFromUrl(fileName), names[i]);
                 } else {
-                    fileToCreate = doc.createFile(MimeTypeMap.getFileExtensionFromUrl(zipEntry.getName()), names[i]);
+                    fileToCreate = doc.createFile(MimeTypeMap.getFileExtensionFromUrl(fileName), names[i]);
                 }
 
-                /*try {
-                    OutputStream outStream = ContentResolver.getContentResolver().openOutputStream(fileToCreate.getUri());
-                    OutputStreamWriter osw = new OutputStreamWriter(outStream);
+                try {
+                    OutputStream outStream = context.getContentResolver().openOutputStream(fileToCreate.getUri());
 
-                    osw.write("bonjour nico");
-                    osw.close();
+                    byte[] bytes = new byte[1024];
+                    int length;
+
+                    while ((length = inputStream.read(bytes)) >= 0) {
+                        outStream.write(bytes, 0, length);
+                    }
+
+                    outStream.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }*/
-
-
-
+                }
             }
         }
-
-/*
-
-        DocumentFile oktxt = this.sdCard.pickedDir.createFile("plain/text", "ok.txt");
-
-        try {
-            OutputStream outStream = this.getContentResolver().openOutputStream(oktxt.getUri());
-            OutputStreamWriter osw = new OutputStreamWriter(outStream);
-
-            osw.write("bonjour nico");
-            osw.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }

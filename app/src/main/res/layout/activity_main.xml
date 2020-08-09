@@ -16,10 +16,11 @@
         app:srcCompat="@drawable/main" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/indicator"
         android:layout_width="409dp"
         android:layout_height="519dp"
         android:layout_marginTop="100dp"
-        android:background="#C31C4A"
+        android:background="@color/raspberry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,31 +42,47 @@
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:onClick="chooseSD"
-            android:text="choose"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:layout_editor_absoluteX="161dp" />
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@android:color/white"
+            android:text="CHOOSE OS"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:onClick="write"
-            android:text="write"
-            app:layout_constraintTop_toBottomOf="@+id/button"
-            tools:layout_editor_absoluteX="163dp" />
+            android:backgroundTint="@android:color/white"
+            android:onClick="chooseSD"
+            android:text="CHOOSE SD"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/writeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:onClick="clean"
-            android:text="clean"
-            app:layout_constraintTop_toBottomOf="@+id/button2"
-            tools:layout_editor_absoluteX="164dp" />
+            android:backgroundTint="@android:color/white"
+            android:onClick="write"
+            android:text="WRITE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

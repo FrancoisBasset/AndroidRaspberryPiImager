@@ -1,16 +1,18 @@
 package francoisbasset.androidraspberrypiimager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
 
 public class MainActivity extends AppCompatActivity {
     SDCard sdCard = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +27,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void write(View v) {
-        String path = "/storage/sdcard0/zip.zip";
+        EditText input = findViewById(R.id.input);
+
+        String path = "/storage/sdcard0/raspberrypiimager/" + input.getText() + ".zip";
 
         this.sdCard.extractZip(path);
-    }
 
-    public void clean(View v) {
-        this.sdCard.clean();
+        View indicator = findViewById(R.id.indicator);
+        indicator.setBackgroundColor(Color.GREEN);
     }
 
     @Override
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         grantUriPermission(getPackageName(), treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-        this.sdCard = new SDCard(treeUri, pickedDir);
+        this.sdCard = new SDCard(pickedDir, this);
+
+        startActivityForResult(new Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS), -1);
     }
 }
