@@ -1,3 +1,5 @@
 <resources>
     <color name="raspberry">#C31C4A</color>
+    <color name="cannotWriteBackground">#ac1941</color>
+    <color name="cannotWriteLabel">#751230</color>
 </resources>

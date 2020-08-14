@@ -13,33 +13,53 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class SDCard {
+public final class SDCard {
     private DocumentFile pickedDir;
     private Context context;
+
+    private int totalFilesCount = 0;
+    private int copiedFilesCount = 0;
 
     public SDCard(DocumentFile pickedDir, Context context) {
         this.pickedDir = pickedDir;
         this.context = context;
     }
 
-    public void extractZip(String zipPath) {
+    public final void extractZip(String zipPath) {
         try {
             ZipFile zipFile = new ZipFile(zipPath);
 
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
             while (entries.hasMoreElements()) {
+                entries.nextElement();
+                totalFilesCount++;
+            }
+
+            ((MainActivity) context).runOnUiThread(() -> {
+                ((MainActivity) context).index.setText("0 / " + totalFilesCount);
+            });
+
+            entries = zipFile.entries();
+
+            while (entries.hasMoreElements()) {
                 String path = entries.nextElement().getName();
                 ZipEntry zipEntry = zipFile.getEntry(path);
 
                 writeZipEntry(zipEntry.getName(), zipFile.getInputStream(zipEntry));
+
+                copiedFilesCount++;
+
+                ((MainActivity) context).runOnUiThread(() -> {
+                    ((MainActivity) context).index.setText(copiedFilesCount + " / " + totalFilesCount);
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeZipEntry(String fileName, InputStream inputStream) {
+    public final void writeZipEntry(String fileName, InputStream inputStream) {
         String[] names = fileName.split("/");
 
         DocumentFile doc = pickedDir, previous;
