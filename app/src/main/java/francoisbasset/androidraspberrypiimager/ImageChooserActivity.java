@@ -26,7 +26,7 @@ public class ImageChooserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_chooser);
 
-        this.imageGroups = ImageGroup.getGroupImages(this);
+        this.imageGroups = ImageGroup.getGroupImages();
         this.imageGroupAdapter = new ImageGroupAdapter(this, this.imageGroups);
 
         this.imagesListView = findViewById(R.id.imagesListView);
@@ -66,5 +66,9 @@ public class ImageChooserActivity extends AppCompatActivity {
                 imagesListView.setAdapter(imageGroupAdapter);
                 break;
         }
+    }
+
+    public void closeImageChooser(View v) {
+        finish();
     }
 }

@@ -12,8 +12,6 @@ import android.os.Environment;
 import java.io.File;
 
 public class Image {
-    private Context context;
-
     private String name;
     private String description;
     private String url;
@@ -21,9 +19,7 @@ public class Image {
 
     private static Image instance;
 
-    public Image(Context context, String name, String description, String fileName, String url) {
-        this.context = context;
-
+    public Image(String name, String description, String fileName, String url) {
         this.name = name;
         this.description = description;
         this.file = new File(Environment.getExternalStorageDirectory() + "raspberrypiimager/" + fileName);
@@ -53,10 +49,10 @@ public class Image {
                     public void run() {
                         SDCard.getInstance().writeImage(image);
 
-                        ((MainActivity) context).runOnUiThread(new Runnable() {
+                        MainActivity.getInstance().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ((MainActivity) context).indicator.setBackgroundColor(Color.GREEN);
+                                MainActivity.getInstance().indicator.setBackgroundColor(Color.GREEN);
                             }
                         });
                     }
@@ -64,9 +60,9 @@ public class Image {
             }
         };
 
-        context.registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        MainActivity.getInstance().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
-        DownloadManager dm = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        DownloadManager dm = (DownloadManager) MainActivity.getInstance().getSystemService(Context.DOWNLOAD_SERVICE);
         dm.enqueue(request);
     }
 

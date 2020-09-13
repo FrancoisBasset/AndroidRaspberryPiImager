@@ -1,6 +1,5 @@
 package francoisbasset.androidraspberrypiimager;
 
-import android.content.Context;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageGroup {
-    private static Context context;
     private static JSONArray jsonArray;
 
     private String name;
@@ -26,13 +24,12 @@ public class ImageGroup {
         this.images = images;
     }
 
-    public static List<ImageGroup> getGroupImages(Context context) {
-        ImageGroup.context = context;
+    public static List<ImageGroup> getGroupImages() {
         List<ImageGroup> imageGroups = new ArrayList<>();
 
         try {
             if (jsonArray == null) {
-                InputStream inputStream = context.getResources().openRawResource(R.raw.images);
+                InputStream inputStream = MainActivity.getInstance().getResources().openRawResource(R.raw.images);
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
@@ -73,7 +70,6 @@ public class ImageGroup {
 
                 images.add(
                         new Image(
-                                ImageGroup.context,
                                 imageJsonObject.getString("name"),
                                 imageJsonObject.getString("description"),
                                 imageJsonObject.getString("filename"),

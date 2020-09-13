@@ -1,5 +1,6 @@
 package francoisbasset.androidraspberrypiimager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
 
     public View indicator;
 
+    public static MainActivity instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         this.index = findViewById(R.id.index);
 
         this.indicator = findViewById(R.id.indicator);
+
+        instance = this;
     }
 
     public void chooseOS(View v) {
@@ -66,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 grantUriPermission(getPackageName(), treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-                SDCard.setInstance(pickedDir, this);
+                SDCard.setInstance(pickedDir);
 
                 checkGoodForWriting();
                 break;
@@ -83,5 +88,9 @@ public class MainActivity extends AppCompatActivity {
             writeButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
             writeButton.setTextColor(getResources().getColor(R.color.raspberry));
         }
+    }
+
+    public static MainActivity getInstance() {
+        return instance;
     }
 }

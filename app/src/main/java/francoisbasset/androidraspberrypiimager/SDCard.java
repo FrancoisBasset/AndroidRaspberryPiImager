@@ -1,6 +1,5 @@
 package francoisbasset.androidraspberrypiimager;
 
-import android.content.Context;
 import android.webkit.MimeTypeMap;
 
 import androidx.documentfile.provider.DocumentFile;
@@ -14,7 +13,6 @@ import java.util.zip.ZipFile;
 
 public final class SDCard {
     private DocumentFile pickedDir;
-    private Context context;
 
     private int totalFilesCount = 0;
     private int copiedFilesCount = 0;
@@ -48,8 +46,8 @@ public final class SDCard {
 
                 copiedFilesCount++;
 
-                ((MainActivity) context).runOnUiThread(() -> {
-                    ((MainActivity) context).index.setText(copiedFilesCount + " / " + totalFilesCount);
+                MainActivity.getInstance().runOnUiThread(() -> {
+                    MainActivity.getInstance().index.setText(copiedFilesCount + " / " + totalFilesCount);
                 });
             }
         } catch (IOException e) {
@@ -79,7 +77,7 @@ public final class SDCard {
                 }
 
                 try {
-                    OutputStream outStream = context.getContentResolver().openOutputStream(fileToCreate.getUri());
+                    OutputStream outStream = MainActivity.getInstance().getContentResolver().openOutputStream(fileToCreate.getUri());
 
                     byte[] bytes = new byte[1024];
                     int length;
@@ -100,9 +98,8 @@ public final class SDCard {
         return instance;
     }
 
-    public static void setInstance(DocumentFile pickedDir, Context context) {
+    public static void setInstance(DocumentFile pickedDir) {
         instance = new SDCard();
         instance.pickedDir = pickedDir;
-        instance.context = context;
     }
 }
