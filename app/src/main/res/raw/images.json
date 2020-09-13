@@ -1,0 +1,56 @@
+[
+    {
+        "name": "NOOBS",
+        "description": "An easy operating system installer",
+        "images": [
+            {
+                "name": "NOOBS",
+                "description": "Full version",
+                "filename": "noobs.zip",
+                "url": "https://downloads.raspberrypi.org/NOOBS_latest"
+            },
+            {
+                "name": "Noobs Lite",
+                "description": "Lite version",
+                "filename": "noobs-lite.zip",
+                "url": "https://downloads.raspberrypi.org/NOOBS_lite_latest"
+            }
+        ]
+    },
+    {
+        "name": "PINN",
+        "description": "An enhancement of NOOBS",
+        "images": [
+            {
+                "name": "PINN",
+                "description": "Full version",
+                "filename": "pinn.zip",
+                "url": "https://sourceforge.net/projects/pinn/files/pinn.zip/download"
+            },
+            {
+                "name": "PINN Lite",
+                "description": "Lite version",
+                "filename": "pinn-lite.zip",
+                "url": "https://sourceforge.net/projects/pinn/files/latest/download"
+            }
+        ]
+    },
+    {
+        "name": "Berryboot",
+        "description": "Bootloader and universal OS installer",
+        "images": [
+            {
+                "name": "Berryboot",
+                "description": "Original Raspberry Pi version",
+                "filename": "berryboot.zip",
+                "url": "https://netcologne.dl.sourceforge.net/project/berryboot/berryboot-20190612-pi0-pi1-pi2-pi3.zip"
+            },
+            {
+                "name": "Berryboot Pi 4",
+                "description": "Raspberry Pi 4 version",
+                "filename": "berryboot-pi4.zip",
+                "url": "https://downloads.sourceforge.net/project/berryboot/berryboot-20200612-pi4.zip"
+            }
+        ]
+    }
+]

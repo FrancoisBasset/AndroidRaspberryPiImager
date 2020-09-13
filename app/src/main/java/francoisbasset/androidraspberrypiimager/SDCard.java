@@ -5,7 +5,6 @@ import android.webkit.MimeTypeMap;
 
 import androidx.documentfile.provider.DocumentFile;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,14 +19,17 @@ public final class SDCard {
     private int totalFilesCount = 0;
     private int copiedFilesCount = 0;
 
-    public SDCard(DocumentFile pickedDir, Context context) {
-        this.pickedDir = pickedDir;
-        this.context = context;
+    private static SDCard instance;
+
+    public final void installImage(Image image) {
+        image.createFolder();
+
+        image.download();
     }
 
-    public final void extractZip(String zipPath) {
+    public final void writeImage(Image image) {
         try {
-            ZipFile zipFile = new ZipFile(zipPath);
+            ZipFile zipFile = new ZipFile(image.getFile().getPath());
 
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
@@ -35,10 +37,6 @@ public final class SDCard {
                 entries.nextElement();
                 totalFilesCount++;
             }
-
-            ((MainActivity) context).runOnUiThread(() -> {
-                ((MainActivity) context).index.setText("0 / " + totalFilesCount);
-            });
 
             entries = zipFile.entries();
 
@@ -63,7 +61,7 @@ public final class SDCard {
         String[] names = fileName.split("/");
 
         DocumentFile doc = pickedDir, previous;
-        DocumentFile fileToCreate = null;
+        DocumentFile fileToCreate;
 
         for (int i = 0; i < names.length; i++) {
             previous = doc;
@@ -91,12 +89,20 @@ public final class SDCard {
                     }
 
                     outStream.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    public static SDCard getInstance() {
+        return instance;
+    }
+
+    public static void setInstance(DocumentFile pickedDir, Context context) {
+        instance = new SDCard();
+        instance.pickedDir = pickedDir;
+        instance.context = context;
     }
 }
