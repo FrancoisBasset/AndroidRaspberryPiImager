@@ -46,9 +46,9 @@ public final class SDCard {
 
                 copiedFilesCount++;
 
-                MainActivity.getInstance().runOnUiThread(() -> {
+                /*MainActivity.getInstance().runOnUiThread(() -> {
                     MainActivity.getInstance().index.setText(copiedFilesCount + " / " + totalFilesCount);
-                });
+                });*/
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package francoisbasset.androidraspberrypiimager;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private Button chooseOSButton;
     private Button chooseSDCardButton;
     private Button writeButton;
-    public TextView index;
 
     public View indicator;
 
@@ -33,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         this.chooseOSButton = findViewById(R.id.chooseOSButton);
         this.chooseSDCardButton = findViewById(R.id.chooseSDCardButton);
         this.writeButton = findViewById(R.id.writeButton);
-        this.index = findViewById(R.id.index);
 
         this.indicator = findViewById(R.id.indicator);
 

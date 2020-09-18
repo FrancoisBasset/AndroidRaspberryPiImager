@@ -27,9 +27,18 @@ public class ImageAdapter extends ArrayAdapter<Image> {
 
         TextView nameLabel = convertView.findViewById(R.id.nameLabel);
         TextView descriptionLabel = convertView.findViewById(R.id.descriptionLabel);
+        TextView onlineCachedLabel = convertView.findViewById(R.id.onlineCachedLabel);
+        TextView releasedLabel = convertView.findViewById(R.id.releasedLabel);
 
         nameLabel.setText(image.getName());
         descriptionLabel.setText(image.getDescription());
+        releasedLabel.setText("Released: " + image.getReleaseDate());
+
+        if (image.isCached()) {
+            onlineCachedLabel.setText("Cached on your computer");
+        } else {
+            onlineCachedLabel.setText("Online - " + image.getFileSize() + " download");
+        }
 
         return convertView;
     }
