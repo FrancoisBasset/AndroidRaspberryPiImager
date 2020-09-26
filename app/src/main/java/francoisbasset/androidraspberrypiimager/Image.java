@@ -6,25 +6,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 public class Image {
     private String name;
@@ -65,6 +56,7 @@ public class Image {
             BroadcastReceiver onComplete = new BroadcastReceiver() {
                 public void onReceive(Context ctxt, Intent intent) {
                     new Thread() {
+                        @Override
                         public void run() {
                             SDCard.getInstance().writeImage(image);
                         }
@@ -80,6 +72,7 @@ public class Image {
             Image image = this;
 
             new Thread() {
+                @Override
                 public void run() {
                     SDCard.getInstance().writeImage(image);
 

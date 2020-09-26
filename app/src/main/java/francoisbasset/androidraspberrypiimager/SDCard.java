@@ -26,9 +26,7 @@ public final class SDCard {
     }
 
     public final void writeImage(Image image) {
-        try {
-            ZipFile zipFile = new ZipFile(image.getFile().getPath());
-
+        try (ZipFile zipFile = new ZipFile(image.getFile().getPath())) {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
             while (entries.hasMoreElements()) {
@@ -58,7 +56,8 @@ public final class SDCard {
     public final void writeZipEntry(String fileName, InputStream inputStream) {
         String[] names = fileName.split("/");
 
-        DocumentFile doc = pickedDir, previous;
+        DocumentFile doc = pickedDir;
+        DocumentFile previous;
         DocumentFile fileToCreate;
 
         for (int i = 0; i < names.length; i++) {
