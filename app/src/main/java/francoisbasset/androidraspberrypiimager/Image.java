@@ -1,5 +1,6 @@
 package francoisbasset.androidraspberrypiimager;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
@@ -39,9 +42,7 @@ public class Image {
         this.file = new File(Environment.getExternalStorageDirectory() + "/raspberrypiimager/" + fileName);
         this.url = url;
 
-        if (!this.isCached()) {
-            this.setInfos();
-        }
+        this.setInfos();
     }
 
     public void createFolder() {
@@ -66,13 +67,6 @@ public class Image {
                     new Thread() {
                         public void run() {
                             SDCard.getInstance().writeImage(image);
-
-                            MainActivity.getInstance().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MainActivity.getInstance().indicator.setBackgroundColor(Color.GREEN);
-                                }
-                            });
                         }
                     }.start();
                 }
@@ -89,12 +83,21 @@ public class Image {
                 public void run() {
                     SDCard.getInstance().writeImage(image);
 
-                    MainActivity.getInstance().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            MainActivity.getInstance().indicator.setBackgroundColor(Color.GREEN);
-                        }
-                    });
+                    //MainActivity.getInstance().runOnUiThread(new Runnable() {
+                       // @Override
+                        //public void run() {
+                            AlertDialog alertDialog = new AlertDialog();
+
+                            LayoutInflater inflater = MainActivity.getInstance().getLayoutInflater();
+                            View dialogWriteSuccessfulView = inflater.inflate(R.layout.dialog_write_successful, null);
+
+                            alertDialog.setView(dialogWriteSuccessfulView);
+                            alertDialog.show();
+
+                            //Button continueButton = dialogWriteSuccessfulView.findViewById(R.id.continueButton);
+                            //continueButton.
+                        //}
+                    //});
                 }
             }.start();
         }

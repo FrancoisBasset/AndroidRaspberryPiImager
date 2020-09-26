@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     private Button chooseSDCardButton;
     private Button writeButton;
 
-    public View indicator;
-
     public static MainActivity instance;
 
     @Override
@@ -31,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         this.chooseOSButton = findViewById(R.id.chooseOSButton);
         this.chooseSDCardButton = findViewById(R.id.chooseSDCardButton);
         this.writeButton = findViewById(R.id.writeButton);
-
-        this.indicator = findViewById(R.id.indicator);
 
         instance = this;
     }
