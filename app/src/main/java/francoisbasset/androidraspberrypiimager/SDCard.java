@@ -19,6 +19,10 @@ public final class SDCard {
 
     private static SDCard instance;
 
+    public SDCard(DocumentFile pickedDir) {
+        this.pickedDir = pickedDir;
+    }
+
     public final void installImage(Image image) {
         image.createFolder();
 
@@ -97,8 +101,11 @@ public final class SDCard {
         return instance;
     }
 
-    public static void setInstance(DocumentFile pickedDir) {
-        instance = new SDCard();
-        instance.pickedDir = pickedDir;
+    public static void setInstance(SDCard sdCard) {
+        instance = sdCard;
+    }
+
+    public String getName() {
+        return pickedDir.getUri().getLastPathSegment().split(":")[0];
     }
 }

@@ -54,7 +54,9 @@ public class ImageGroup {
                         )
                 );
             }
-        } catch (IOException | JSONException e) {}
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
 
         return imageGroups;
     }
@@ -77,7 +79,9 @@ public class ImageGroup {
                         )
                 );
             }
-        } catch (JSONException e) {}
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return images;
     }

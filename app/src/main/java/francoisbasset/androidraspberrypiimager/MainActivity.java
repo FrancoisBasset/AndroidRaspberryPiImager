@@ -58,18 +58,17 @@ public class MainActivity extends AppCompatActivity {
             case 42:
                 Uri treeUri = resultData.getData();
 
-                chooseSDCardButton.setText(treeUri.getLastPathSegment().split(":")[0]);
-
                 DocumentFile pickedDir = DocumentFile.fromTreeUri(this, treeUri);
                 grantUriPermission(getPackageName(), treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 getContentResolver().takePersistableUriPermission(treeUri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-                SDCard.setInstance(pickedDir);
+                SDCard.setInstance(new SDCard(pickedDir));
+
+                chooseSDCardButton.setText(SDCard.getInstance().getName());
 
                 checkGoodForWriting();
                 break;
             case 1:
-                Toast.makeText(this, Image.getInstance().getName(), Toast.LENGTH_SHORT).show();
                 chooseOSButton.setText(Image.getInstance().getName());
                 break;
         }
