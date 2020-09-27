@@ -50,7 +50,7 @@ public final class SDCard {
 
                 MainActivity.getInstance().runOnUiThread(() -> {
                     double percent = (copiedFilesCount / totalFilesCount) * 100;
-                    MainActivity.getInstance().setInstallProgress((int) percent);
+                    MainActivity.getInstance().setProgressBarPercent((int) percent);
                 });
             }
         } catch (IOException e) {

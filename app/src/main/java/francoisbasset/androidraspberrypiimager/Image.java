@@ -61,6 +61,13 @@ public final class Image {
                         @Override
                         public void run() {
                             SDCard.getInstance().writeImage(image);
+
+                            MainActivity.getInstance().runOnUiThread(new Runnable() {
+                                @Override
+                                public final void run() {
+                                    MainActivity.getInstance().showWriteSuccessfulDialog();
+                                }
+                            });
                         }
                     }.start();
                 }
@@ -81,35 +88,7 @@ public final class Image {
                     MainActivity.getInstance().runOnUiThread(new Runnable() {
                         @Override
                         public final void run() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
-
-                            LayoutInflater inflater = MainActivity.getInstance().getLayoutInflater();
-                            View dialogWriteSuccessfulView = inflater.inflate(R.layout.dialog_write_successful, null);
-
-                            builder.setView(dialogWriteSuccessfulView);
-                            builder.setCancelable(false);
-
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-
-                            View.OnClickListener onClick = new View.OnClickListener() {
-                                @Override
-                                public final void onClick(View v) {
-                                    alertDialog.dismiss();
-                                }
-                            };
-
-                            TextView closeLabel = dialogWriteSuccessfulView.findViewById(R.id.closeLabel);
-                            closeLabel.setOnClickListener(onClick);
-
-                            Button continueButton = dialogWriteSuccessfulView.findViewById(R.id.continueButton);
-                            continueButton.setOnClickListener(onClick);
-
-                            TextView imageLabel = dialogWriteSuccessfulView.findViewById(R.id.imageLabel);
-                            imageLabel.setText(image.getName());
-
-                            TextView sdCardLabel = dialogWriteSuccessfulView.findViewById(R.id.sdCardLabel);
-                            sdCardLabel.setText(SDCard.getInstance().getName());
+                            MainActivity.getInstance().showWriteSuccessfulDialog();
                         }
                     });
                 }
