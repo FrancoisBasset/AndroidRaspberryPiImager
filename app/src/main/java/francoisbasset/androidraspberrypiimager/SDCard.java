@@ -23,6 +23,14 @@ public final class SDCard {
         this.pickedDir = pickedDir;
     }
 
+    public final static SDCard getInstance() {
+        return instance;
+    }
+
+    public final static void setInstance(SDCard sdCard) {
+        instance = sdCard;
+    }
+
     public final void installImage(Image image) {
         image.createFolder();
 
@@ -96,14 +104,6 @@ public final class SDCard {
                 }
             }
         }
-    }
-
-    public final static SDCard getInstance() {
-        return instance;
-    }
-
-    public final static void setInstance(SDCard sdCard) {
-        instance = sdCard;
     }
 
     public final String getName() {

@@ -38,6 +38,14 @@ public final class Image {
         this.setInfos();
     }
 
+    public final static Image getInstance() {
+        return instance;
+    }
+
+    public final static void setInstance(Image image) {
+        instance = image;
+    }
+
     public final void createFolder() {
         File imagesFolder = new File(Environment.getExternalStorageDirectory() + "/raspberrypiimager");
 
@@ -167,13 +175,5 @@ public final class Image {
 
     public final String getReleaseDate() {
         return this.releaseDate;
-    }
-
-    public final static Image getInstance() {
-        return instance;
-    }
-
-    public final static void setInstance(Image image) {
-        instance = image;
     }
 }
