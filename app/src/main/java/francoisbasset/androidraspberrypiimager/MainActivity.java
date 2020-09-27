@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
 
-public class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity {
     private Button chooseOSButton;
     private Button chooseSDCardButton;
     private Button writeButton;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     public static MainActivity instance;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -37,21 +37,21 @@ public class MainActivity extends AppCompatActivity {
         instance = this;
     }
 
-    public void chooseOS(View v) {
+    public final void chooseOS(View v) {
         startActivityForResult(new Intent(this, ImageChooserActivity.class), 1);
     }
 
-    public void chooseSD(View v) {
+    public final void chooseSD(View v) {
         startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE),42);
         startActivity(new Intent(Settings.ACTION_INTERNAL_STORAGE_SETTINGS));
     }
 
-    public void write(View v) {
+    public final void write(View v) {
         SDCard.getInstance().installImage(Image.getInstance());
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
+    public final void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
 
         if (resultCode != RESULT_OK) {
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkGoodForWriting() {
+    private final void checkGoodForWriting() {
         if (Image.getInstance() != null && SDCard.getInstance() != null) {
             writeButton.setEnabled(true);
             writeButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
@@ -86,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static MainActivity getInstance() {
+    public final static MainActivity getInstance() {
         return instance;
     }
 
-    public void setInstallProgress(int percent) {
+    public final void setInstallProgress(int percent) {
         this.writingPercentLabel.setText("Writing... " + percent + "%");
         this.progressBar.setProgress(percent);
     }

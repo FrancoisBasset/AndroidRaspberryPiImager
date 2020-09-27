@@ -12,13 +12,13 @@ import java.util.List;
 import francoisbasset.androidraspberrypiimager.ImageGroup;
 import francoisbasset.androidraspberrypiimager.R;
 
-public class ImageGroupAdapter extends ArrayAdapter<ImageGroup> {
+public final class ImageGroupAdapter extends ArrayAdapter<ImageGroup> {
     public ImageGroupAdapter(Context context, List<ImageGroup> users) {
         super(context, 0, users);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(int position, View convertView, ViewGroup parent) {
         ImageGroup imageGroup = getItem(position);
 
         if (convertView == null) {

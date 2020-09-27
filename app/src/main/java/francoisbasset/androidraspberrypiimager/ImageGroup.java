@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageGroup {
+public final class ImageGroup {
     private static JSONArray jsonArray;
 
     private String name;
@@ -24,7 +24,7 @@ public class ImageGroup {
         this.images = images;
     }
 
-    public static List<ImageGroup> getGroupImages() {
+    public final static List<ImageGroup> getGroupImages() {
         List<ImageGroup> imageGroups = new ArrayList<>();
 
         try {
@@ -61,7 +61,7 @@ public class ImageGroup {
         return imageGroups;
     }
 
-    private static List<Image> getImages(JSONObject imageGroupJsonObject) {
+    private final static List<Image> getImages(JSONObject imageGroupJsonObject) {
         List<Image> images = new ArrayList<>();
 
         try {
@@ -86,15 +86,15 @@ public class ImageGroup {
         return images;
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return this.description;
     }
 
-    public List<Image> getImages() {
+    public final List<Image> getImages() {
         return this.images;
     }
 }

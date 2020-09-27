@@ -13,7 +13,7 @@ import java.util.List;
 import francoisbasset.androidraspberrypiimager.adapters.ImageAdapter;
 import francoisbasset.androidraspberrypiimager.adapters.ImageGroupAdapter;
 
-public class ImageChooserActivity extends AppCompatActivity {
+public final class ImageChooserActivity extends AppCompatActivity {
     private int step = 1;
     private List<ImageGroup> imageGroups;
 
@@ -22,7 +22,7 @@ public class ImageChooserActivity extends AppCompatActivity {
     private ImageGroupAdapter imageGroupAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_chooser);
 
@@ -34,7 +34,7 @@ public class ImageChooserActivity extends AppCompatActivity {
 
         imagesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public final void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (step) {
                     case 1:
                         ImageGroup imageGroup = (ImageGroup) parent.getItemAtPosition(position);
@@ -56,7 +56,7 @@ public class ImageChooserActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
+    public final void onBackPressed() {
         switch (this.step) {
             case 1:
                 finish();
@@ -68,7 +68,7 @@ public class ImageChooserActivity extends AppCompatActivity {
         }
     }
 
-    public void closeImageChooser(View v) {
+    public final void closeImageChooser(View v) {
         finish();
     }
 }

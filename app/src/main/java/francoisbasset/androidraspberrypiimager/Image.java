@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
-public class Image {
+public final class Image {
     private String name;
     private String description;
     private String url;
@@ -38,7 +38,7 @@ public class Image {
         this.setInfos();
     }
 
-    public void createFolder() {
+    public final void createFolder() {
         File imagesFolder = new File(Environment.getExternalStorageDirectory() + "/raspberrypiimager");
 
         if (!imagesFolder.exists()) {
@@ -46,7 +46,7 @@ public class Image {
         }
     }
 
-    public void download() {
+    public final void download() {
         if (!this.isCached()) {
             Uri uri = Uri.parse(this.url);
 
@@ -56,7 +56,7 @@ public class Image {
             Image image = this;
 
             BroadcastReceiver onComplete = new BroadcastReceiver() {
-                public void onReceive(Context ctxt, Intent intent) {
+                public final void onReceive(Context ctxt, Intent intent) {
                     new Thread() {
                         @Override
                         public void run() {
@@ -75,12 +75,12 @@ public class Image {
 
             new Thread() {
                 @Override
-                public void run() {
+                public final void run() {
                     SDCard.getInstance().writeImage(image);
 
                     MainActivity.getInstance().runOnUiThread(new Runnable() {
                         @Override
-                        public void run() {
+                        public final void run() {
                             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
 
                             LayoutInflater inflater = MainActivity.getInstance().getLayoutInflater();
@@ -94,7 +94,7 @@ public class Image {
 
                             View.OnClickListener onClick = new View.OnClickListener() {
                                 @Override
-                                public void onClick(View v) {
+                                public final void onClick(View v) {
                                     alertDialog.dismiss();
                                 }
                             };
@@ -117,24 +117,24 @@ public class Image {
         }
     }
 
-    public String getName() {
+    public final String getName() {
         return this.name;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return this.description;
     }
 
-    public File getFile() {
+    public final File getFile() {
         return this.file;
     }
 
-    private void setInfos() {
+    private final void setInfos() {
         Image image = this;
 
         new Thread(new Runnable() {
             @Override
-            public void run() {
+            public final void run() {
                 try {
                     URL url = new URL(image.url);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -178,23 +178,23 @@ public class Image {
         }).start();
     }
 
-    public boolean isCached() {
+    public final boolean isCached() {
         return this.file.exists();
     }
 
-    public String getFileSize() {
+    public final String getFileSize() {
         return this.fileSize;
     }
 
-    public String getReleaseDate() {
+    public final String getReleaseDate() {
         return this.releaseDate;
     }
 
-    public static Image getInstance() {
+    public final static Image getInstance() {
         return instance;
     }
 
-    public static void setInstance(Image image) {
+    public final static void setInstance(Image image) {
         instance = image;
     }
 }

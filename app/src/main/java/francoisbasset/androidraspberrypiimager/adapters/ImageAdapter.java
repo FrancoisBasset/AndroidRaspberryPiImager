@@ -12,13 +12,13 @@ import java.util.List;
 import francoisbasset.androidraspberrypiimager.Image;
 import francoisbasset.androidraspberrypiimager.R;
 
-public class ImageAdapter extends ArrayAdapter<Image> {
+public final class ImageAdapter extends ArrayAdapter<Image> {
     public ImageAdapter(Context context, List<Image> images) {
         super(context, 0, images);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public final View getView(int position, View convertView, ViewGroup parent) {
         Image image = getItem(position);
 
         if (convertView == null) {

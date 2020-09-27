@@ -98,15 +98,15 @@ public final class SDCard {
         }
     }
 
-    public static SDCard getInstance() {
+    public final static SDCard getInstance() {
         return instance;
     }
 
-    public static void setInstance(SDCard sdCard) {
+    public final static void setInstance(SDCard sdCard) {
         instance = sdCard;
     }
 
-    public String getName() {
+    public final String getName() {
         return pickedDir.getUri().getLastPathSegment().split(":")[0];
     }
 }
