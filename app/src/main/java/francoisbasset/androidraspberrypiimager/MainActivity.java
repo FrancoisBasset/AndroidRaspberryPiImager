@@ -8,8 +8,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.documentfile.provider.DocumentFile;
@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private Button chooseOSButton;
     private Button chooseSDCardButton;
     private Button writeButton;
+    private TextView writingPercentLabel;
+    private ProgressBar progressBar;
 
     public static MainActivity instance;
 
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         this.chooseOSButton = findViewById(R.id.chooseOSButton);
         this.chooseSDCardButton = findViewById(R.id.chooseSDCardButton);
         this.writeButton = findViewById(R.id.writeButton);
+        this.writingPercentLabel = findViewById(R.id.writingPercentLabel);
+        this.progressBar = findViewById(R.id.progressBar);
 
         instance = this;
     }
@@ -84,5 +88,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static MainActivity getInstance() {
         return instance;
+    }
+
+    public void setInstallProgress(int percent) {
+        this.writingPercentLabel.setText("Writing... " + percent + "%");
+        this.progressBar.setProgress(percent);
     }
 }

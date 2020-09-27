@@ -76,7 +76,7 @@ public class Image {
             new Thread() {
                 @Override
                 public void run() {
-                    //SDCard.getInstance().writeImage(image);
+                    SDCard.getInstance().writeImage(image);
 
                     MainActivity.getInstance().runOnUiThread(new Runnable() {
                         @Override

@@ -14,8 +14,8 @@ import java.util.zip.ZipFile;
 public final class SDCard {
     private DocumentFile pickedDir;
 
-    private int totalFilesCount = 0;
-    private int copiedFilesCount = 0;
+    private double totalFilesCount = 0;
+    private double copiedFilesCount = 0;
 
     private static SDCard instance;
 
@@ -48,9 +48,10 @@ public final class SDCard {
 
                 copiedFilesCount++;
 
-                /*MainActivity.getInstance().runOnUiThread(() -> {
-                    MainActivity.getInstance().index.setText(copiedFilesCount + " / " + totalFilesCount);
-                });*/
+                MainActivity.getInstance().runOnUiThread(() -> {
+                    double percent = (copiedFilesCount / totalFilesCount) * 100;
+                    MainActivity.getInstance().setInstallProgress((int) percent);
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
