@@ -59,6 +59,21 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     public final void write(View v) {
+        ColorStateList colorStateList = new ColorStateList(new int[][] {{-android.R.attr.state_enabled}}, new int[] { getResources().getColor(R.color.cannotWriteBackground)});
+
+        this.chooseSDCardButton.setEnabled(false);
+        this.chooseSDCardButton.setBackgroundTintList(colorStateList);
+        this.chooseSDCardButton.setTextColor(getResources().getColor(R.color.cannotWriteLabel));
+
+        this.chooseOSButton.setEnabled(false);
+        this.chooseOSButton.setBackgroundTintList(colorStateList);
+        this.chooseOSButton.setTextColor(getResources().getColor(R.color.cannotWriteLabel));
+
+        this.writeButton.setEnabled(false);
+        this.writeButton.setBackgroundTintList(colorStateList);
+        this.writeButton.setTextColor(getResources().getColor(R.color.cannotWriteLabel));
+
+        this.setProgressBarPercent(0);
         this.setProgressBarVisibility(View.VISIBLE);
         SDCard.getInstance().installImage(Image.getInstance());
     }
@@ -93,9 +108,9 @@ public final class MainActivity extends AppCompatActivity {
 
     private final void checkWrite() {
         if (Image.getInstance() != null && SDCard.getInstance() != null) {
-            writeButton.setEnabled(true);
-            writeButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-            writeButton.setTextColor(getResources().getColor(R.color.raspberry));
+            this.writeButton.setEnabled(true);
+            this.writeButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+            this.writeButton.setTextColor(getResources().getColor(R.color.raspberry));
         }
     }
 
@@ -111,6 +126,19 @@ public final class MainActivity extends AppCompatActivity {
     }
 
     public final void showWriteSuccessfulDialog() {
+        this.chooseSDCardButton.setEnabled(true);
+        this.chooseSDCardButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        this.chooseSDCardButton.setTextColor(getResources().getColor(R.color.raspberry));
+
+        this.chooseOSButton.setEnabled(true);
+        this.chooseOSButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        this.chooseOSButton.setTextColor(getResources().getColor(R.color.raspberry));
+
+        this.writeButton.setEnabled(true);
+        this.writeButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+        this.writeButton.setTextColor(getResources().getColor(R.color.raspberry));
+
+        this.setProgressBarPercent(0);
         this.setProgressBarVisibility(View.INVISIBLE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());

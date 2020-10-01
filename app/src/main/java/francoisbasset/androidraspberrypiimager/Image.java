@@ -35,7 +35,7 @@ public final class Image {
         this.file = new File(Environment.getExternalStorageDirectory() + "/raspberrypiimager/" + fileName);
         this.url = url;
 
-        this.setInfos();
+        this.setFileSizeReleaseDate();
     }
 
     public final static Image getInstance() {
@@ -116,7 +116,7 @@ public final class Image {
         return this.file;
     }
 
-    private final void setInfos() {
+    private final void setFileSizeReleaseDate() {
         Image image = this;
 
         new Thread(new Runnable() {
