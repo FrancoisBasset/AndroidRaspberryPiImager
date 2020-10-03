@@ -8,10 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,43 +51,12 @@ public final class Image {
     }
 
     public final void download() {
-        if (!this.isCached()) {
-            Uri uri = Uri.parse(this.url);
+        Image image = this;
 
-            DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.setDestinationInExternalPublicDir("/raspberrypiimager", this.file.getName());
-
-            Image image = this;
-
-            BroadcastReceiver onComplete = new BroadcastReceiver() {
-                public final void onReceive(Context ctxt, Intent intent) {
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            SDCard.getInstance().writeImage(image);
-
-                            MainActivity.getInstance().runOnUiThread(new Runnable() {
-                                @Override
-                                public final void run() {
-                                    MainActivity.getInstance().showWriteSuccessfulDialog();
-                                }
-                            });
-                        }
-                    }.start();
-                }
-            };
-
-            MainActivity.getInstance().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-
-            DownloadManager dm = (DownloadManager) MainActivity.getInstance().getSystemService(Context.DOWNLOAD_SERVICE);
-            dm.enqueue(request);
-        } else {
-            Image image = this;
-
-            new Thread() {
-                @Override
-                public final void run() {
-                    SDCard.getInstance().writeImage(image);
+        Thread installThread = new Thread() {
+            @Override
+            public final void run() {
+                if (SDCard.getInstance().writeImage(image)) {
 
                     MainActivity.getInstance().runOnUiThread(new Runnable() {
                         @Override
@@ -100,7 +65,27 @@ public final class Image {
                         }
                     });
                 }
-            }.start();
+            }
+        };
+
+        if (!this.isCached()) {
+            Uri uri = Uri.parse(this.url);
+
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setDestinationInExternalPublicDir("/raspberrypiimager", this.file.getName());
+
+            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                public final void onReceive(Context ctxt, Intent intent) {
+                    installThread.start();
+                }
+            };
+
+            MainActivity.getInstance().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+            DownloadManager dm = (DownloadManager) MainActivity.getInstance().getSystemService(Context.DOWNLOAD_SERVICE);
+            dm.enqueue(request);
+        } else {
+            installThread.start();
         }
     }
 

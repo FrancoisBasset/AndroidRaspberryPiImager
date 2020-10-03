@@ -18,6 +18,7 @@ public final class SDCard {
     private double copiedFilesCount = 0;
 
     private static SDCard instance;
+    public boolean canContinue = true;
 
     public SDCard(DocumentFile pickedDir) {
         this.pickedDir = pickedDir;
@@ -37,7 +38,7 @@ public final class SDCard {
         image.download();
     }
 
-    public final void writeImage(Image image) {
+    public final boolean writeImage(Image image) {
         try (ZipFile zipFile = new ZipFile(image.getFile().getPath())) {
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
 
@@ -49,6 +50,11 @@ public final class SDCard {
             entries = zipFile.entries();
 
             while (entries.hasMoreElements()) {
+                if (!this.canContinue) {
+                    this.canContinue = true;
+                    return false;
+                }
+
                 String path = entries.nextElement().getName();
                 ZipEntry zipEntry = zipFile.getEntry(path);
 
@@ -64,6 +70,8 @@ public final class SDCard {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return true;
     }
 
     public final void writeZipEntry(String fileName, InputStream inputStream) {
@@ -104,6 +112,10 @@ public final class SDCard {
                 }
             }
         }
+    }
+
+    public void stopInstallation() {
+        this.canContinue = false;
     }
 
     public final String getName() {
